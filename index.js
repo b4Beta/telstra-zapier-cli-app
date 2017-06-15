@@ -4,16 +4,15 @@ const authentication = require('./authentication');
 
 
 const includeAuthTokenHeader = (request, z, bundle) => {
+  z.console.log(bundle.authData.accessToken);
   if(bundle.authData.accessToken){
     request.headers['Authorization'] = 'Bearer ' + bundle.authData.accessToken;
   }
   return request;
 };
 const tokenRefreshIf401 = (response, z, bundle) => {
-  if (bundle.authData.accessToken) {
     if (response.status === 401) {
       throw new z.errors.RefreshAuthError(); // ask for a refresh & retry
-    }
   }
   return response;
 };
